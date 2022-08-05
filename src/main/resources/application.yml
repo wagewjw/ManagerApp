@@ -1,2 +1,9 @@
 server:
   port: 9999
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    cache: false
+    suffix: .html
+    mode: HTML5
