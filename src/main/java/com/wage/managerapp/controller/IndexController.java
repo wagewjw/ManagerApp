@@ -1,6 +1,7 @@
 package com.wage.managerapp.controller;
 
 import com.wage.managerapp.entry.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -23,6 +25,7 @@ public class IndexController {
 
     @PostMapping("/login")
     public String main(User user, HttpSession httpSession, Model model){
+        log.info(user.getUserName()+":"+user.getPassword());
         if((!StringUtils.isEmpty(user.getUserName()))&&"123456".equals(user.getPassword())){
             httpSession.setAttribute("loginUser",user);
             return "redirect:/main.html";
@@ -39,13 +42,14 @@ public class IndexController {
      */
     @GetMapping("/main.html")
     public String mainPage(HttpSession httpSession,Model model){
-        Object loginUser=httpSession.getAttribute("loginUser");
-        if(loginUser!=null){
-            return "main";
-        }else {
-            model.addAttribute("msg","请重新登录");
-            return "login";
-        }
+//        Object loginUser=httpSession.getAttribute("loginUser");
+//        if(loginUser!=null){
+//            return "main";
+//        }else {
+//            model.addAttribute("msg","请重新登录");
+//            return "login";
+//        }
+        return "main";
     }
 
 }
