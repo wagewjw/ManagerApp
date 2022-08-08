@@ -1,6 +1,7 @@
 package com.wage.managerapp.controller;
 
 import com.wage.managerapp.entry.User;
+import com.wage.managerapp.exception.UserTooManyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ public class TableController {
 
     @GetMapping("/basic_table")
     public String basic_table(){
+        int i=10/0;
         return "table/basic_table";
     }
 
@@ -22,6 +24,9 @@ public class TableController {
                 new User("fafa","dasfas"),
                 new User("gfa","dfawfgadg"));
         model.addAttribute("users",users);
+        if(users.size()>1){
+            throw new UserTooManyException();
+        }
         return "table/dynamic_table";
     }
 
