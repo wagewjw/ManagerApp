@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wage.managerapp.mapper.AccountMapper">
+<!--    Account getAccount(Integer id);-->
+    <select id="getAccount" resultType="com.wage.managerapp.entry.Account">
+        select * from account_tbl where id=#{id}
+    </select>
+<!--    void insertAccount(Account account);-->
+    <insert id="insertAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into account_tbl(`id`,`name`,`email`)VALUES (#{id},#{name},#{email})
+    </insert>
+</mapper>

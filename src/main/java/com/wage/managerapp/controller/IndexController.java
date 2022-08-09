@@ -1,18 +1,32 @@
 package com.wage.managerapp.controller;
 
+import com.wage.managerapp.entry.Account;
 import com.wage.managerapp.entry.User;
+import com.wage.managerapp.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.PUBLIC_MEMBER;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.PushBuilder;
 
 @Slf4j
 @Controller
 public class IndexController {
+
+    @Resource
+    JdbcTemplate jdbcTemplate;
+
+    @Resource
+    AccountService accountService;
 
     /**
      * 去login.html
@@ -50,6 +64,27 @@ public class IndexController {
 //            return "login";
 //        }
         return "main";
+    }
+
+    @ResponseBody
+    @GetMapping("/sql")
+    public String queryFromDb(){
+        Long num=jdbcTemplate.queryForObject("select count(*) from account_tbl",Long.class);
+        return num.toString();
+    }
+
+    @ResponseBody
+    @GetMapping("/account")
+    public Account getById(@RequestParam("id") Integer id){
+        return accountService.getAccountById(id);
+    }
+
+    @ResponseBody
+    @PostMapping("/account")
+    public Account insertAccount(Account account){
+        accountService.insertAccount(account);
+        log.info("id={},name={},email={}",account.getId(),account.getName(),account.getEmail());
+        return account;
     }
 
 }
