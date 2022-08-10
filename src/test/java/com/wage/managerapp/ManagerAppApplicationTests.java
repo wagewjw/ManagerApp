@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
@@ -22,6 +24,9 @@ class ManagerAppApplicationTests {
     @Resource
     UserMapper userMapper;
 
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
     @Test
     void contextLoads() {
         Long num=jdbcTemplate.queryForObject("select count(*) from account_tbl",Long.class);
@@ -32,6 +37,14 @@ class ManagerAppApplicationTests {
     void testUserMapper(){
         User user=userMapper.selectById(1);
         log.info(String.valueOf(user));
+    }
+
+    @Test
+    void testRedis(){
+        ValueOperations<String,String> valueOperations=stringRedisTemplate.opsForValue();
+        valueOperations.set("dsa","dasfgas");
+        String dsa=valueOperations.get("dsa");
+        log.info("测试："+dsa);
     }
 
 }

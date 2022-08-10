@@ -429,7 +429,7 @@
                                         <th>name</th>
                                         <th>age</th>
                                         <th>email</th>
-<!--                                        <th>操作</th>-->
+                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -441,6 +441,9 @@
                                         <td th:text="${user.name}">name</td>
                                         <td th:text="${user.age}">age</td>
                                         <td>[[${user.email}]]</td>
+                                        <td>
+                                            <a th:href="@{/user/delete/{id}(id=${user.id},pn=${page.current})}" class="btn bg-danger btn-sm" type="button">删除</a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

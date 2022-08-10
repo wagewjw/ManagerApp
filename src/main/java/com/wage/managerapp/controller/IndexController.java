@@ -5,6 +5,8 @@ import com.wage.managerapp.entry.User;
 import com.wage.managerapp.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.PUBLIC_MEMBER;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,9 @@ public class IndexController {
 
     @Resource
     AccountService accountService;
+
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
 
     /**
      * 去login.html
@@ -63,6 +68,9 @@ public class IndexController {
 //            model.addAttribute("msg","请重新登录");
 //            return "login";
 //        }
+        ValueOperations<String,String> valueOperations=stringRedisTemplate.opsForValue();
+        int num1= Integer.parseInt(valueOperations.get("/main.html"));
+        model.addAttribute("mainCount",num1);
         return "main";
     }
 
